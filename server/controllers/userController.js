@@ -110,6 +110,7 @@ export const discoverUsers = async (req, res) => {
         { location: new RegExp(input, "i") },
       ],
     });
+    console.log("allUsers : ", allUsers);
 
     const filteredUsers = allUsers.filter((user) => user._id !== userId);
 
