@@ -32,7 +32,6 @@ export const updateUserData = async (req, res) => {
       const user = await User.findOne({ username });
 
       if (user) {
-        // we will not change the username if it is already taken
         username = tempUser.username;
       }
     }
@@ -174,12 +173,11 @@ export const unfollowUser = async (req, res) => {
 };
 
 // Send Connection Request
-export const sendConnectionReqest = async (req, res) => {
+export const sendConnectionRequest = async (req, res) => {
   try {
     const { userId } = req.auth();
     const { id } = req.body;
 
-    // Check if user has sent more than 20 connection requests in the last 24 hours
     const last24Hours = new Date(Date.now() - 24 * 60 * 60 * 1000);
     const connectionRequests = await Connection.find({
       from_user_id: userId,
@@ -193,7 +191,6 @@ export const sendConnectionReqest = async (req, res) => {
       });
     }
 
-    // Check if users are already connected
     const connection = await Connection.findOne({
       $or: [
         { from_user_id: userId, to_user_id: id },

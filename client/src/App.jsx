@@ -52,12 +52,9 @@ const App = () => {
         if (pathnameRef.current === "/messages/" + message.from_user_id._id) {
           dispatch(addMessage(message));
         } else {
-          toast.custom(
-            (t) => {
-              <Notification t={t} message={message} />;
-            },
-            { position: "bottom-right" }
-          );
+          toast.custom((t) => <Notification t={t} message={message} />, {
+            position: "bottom-right",
+          });
         }
       };
       return () => {

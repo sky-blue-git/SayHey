@@ -7,7 +7,7 @@ import {
   getUserConnections,
   getUserData,
   getUserProfiles,
-  sendConnectionReqest,
+  sendConnectionRequest,
   unfollowUser,
   updateUserData,
 } from "../controllers/userController.js";
@@ -29,7 +29,7 @@ userRouter.post(
 userRouter.post("/discover", protect, discoverUsers);
 userRouter.post("/follow", protect, followUser);
 userRouter.post("/unfollow", protect, unfollowUser);
-userRouter.post("/connect", protect, sendConnectionReqest);
+userRouter.post("/connect", protect, sendConnectionRequest);
 userRouter.post("/accept", protect, acceptConnectionRequest);
 userRouter.get("/connections", protect, getUserConnections);
 userRouter.post("/profiles", getUserProfiles);
