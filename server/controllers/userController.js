@@ -70,7 +70,7 @@ export const updateUserData = async (req, res) => {
       const buffer = fs.readFileSync(cover.path);
       const response = await imagekit.upload({
         file: buffer,
-        fileName: profile.originalname,
+        fileName: cover.originalname,
       });
 
       const url = imagekit.url({
@@ -110,7 +110,6 @@ export const discoverUsers = async (req, res) => {
         { location: new RegExp(input, "i") },
       ],
     });
-    console.log("allUsers : ", allUsers);
 
     const filteredUsers = allUsers.filter((user) => user._id !== userId);
 
@@ -186,11 +185,11 @@ export const sendConnectionReqest = async (req, res) => {
       from_user_id: userId,
       createdAt: { $gt: last24Hours },
     });
-    if (connectionRequests.length > 20) {
+    if (connectionRequests.length >= 100) {
       return res.json({
         success: false,
         message:
-          "You have sent more than 20 connection requests in the last 24 hours",
+          "You have reached the limit of 100 connection requests in the last 24 hours",
       });
     }
 
@@ -303,7 +302,9 @@ export const getUserProfiles = async (req, res) => {
     if (!profile) {
       return res.json({ success: false, message: "Profile not found" });
     }
-    const posts = await Post.find({ user: profileId }).populate("user");
+    const posts = await Post.find({ user: profileId })
+      .populate("user")
+      .sort({ createdAt: -1 });
     res.json({ success: true, profile, posts });
   } catch (error) {
     console.log(error);
